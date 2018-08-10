@@ -1,15 +1,15 @@
 # vue-cli
 参考：
-新闻资讯pages：http://ansonznl.coding.me/vue-router-dome2/#/main1
-新闻资讯code：https://coding.net/u/AnsonZnl/p/vue-router-dome2/git
-饿了吗code：https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
-饿了吗pages:https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
-vue-cli参考：http://jspang.com/2017/04/10/vue-cli/
-vue-router参考：http://jspang.com/2017/04/13/vue-router/
+- 新闻资讯pages：http://ansonznl.coding.me/vue-router-dome2/#/main1
+- 新闻资讯code：https://coding.net/u/AnsonZnl/p/vue-router-dome2/git
+- 饿了吗code：https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
+- 饿了吗pages:https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
+- vue-cli参考：http://jspang.com/2017/04/10/vue-cli/
+- vue-router参考：http://jspang.com/2017/04/13/vue-router/
 
-安装vue-cli: 	`npm install vue-cli -g`
-初始化项目: `vue init <template-name> <project-name>`
-init：表示我要用vue-cli来初始化项目
+- 安装vue-cli: 	`npm install vue-cli -g`
+- 初始化项目: `vue init <template-name> <project-name>`
+- init：表示我要用vue-cli来初始化项目
 
 <template-name>：表示模板名称，vue-cli官方为我们提供了5种模板，
 
@@ -49,13 +49,13 @@ simple-一个最简单的单页应用模板。
 ### 跳转：
 `<router-link to=''></router-link>`跳转
 ### vue-router配置子路由 新闻页
-`
+```
+//news.vue
 <p>
   <router-link to="/news/news_ent">娱乐新闻</router-link>
   <router-link to="/news/news_it">互联网新闻</router-link>
 </p>
-`
-`
+//router/index.js
 {
   path: '/news',
   name: '新闻',
@@ -66,5 +66,5 @@ simple-一个最简单的单页应用模板。
     {path: 'news_ent', component: news_ent}
   ]
 }
-`
+```
 ### vue-router如何参数传递
