@@ -1,3 +1,28 @@
+# vuecli
+
+> A Vue.js project
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+
+
 # vue-cli
 参考：
 - 新闻资讯pages：http://ansonznl.coding.me/vue-router-dome2/#/main1
@@ -68,5 +93,3 @@ simple-一个最简单的单页应用模板。
 }
 ```
 ### vue-router如何参数传递
-
-123
