@@ -6,9 +6,11 @@ import news_it from '@/components/news_it'
 import news_ent from '@/components/news_ent'
 import news_it_pages from '@/components/news_it_pages'
 
-
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(Router)   //vue全局使用router
+Vue.use(ElementUI)
 
 export default new Router({
   routes: [                     //配置路由
