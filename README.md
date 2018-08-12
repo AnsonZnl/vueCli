@@ -93,3 +93,26 @@ simple-一个最简单的单页应用模板。
 }
 ```
 ### vue-router如何参数传递
+
+
+
+### 引入elementUI
+ElementUI,是一个比较完善的UI库，但是使用它需要有一点vue的基础。
+
+安装ElementUI模块
+`
+cnpm install element-ui -S
+`
+
+在router.js中引入
+`
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+Vue.use(Router)   //vue全局使用router
+Vue.use(ElementUI)
+`
+然后在home.vue中引用
+` <el-button type="primary">主要按钮</el-button>`
+
+安装完记得重新运行，`cnpm run dev`   ，现在就可以直接使用elementUI了。
