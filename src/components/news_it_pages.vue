@@ -11,8 +11,11 @@
                     <p v-html="contents" style="text-align: left;">{{contents}}</p>
                 </div>
             </div>
-             <router-link to="/news/news_it">返回</router-link>
-     </div>
+             <!-- <router-link to="/news/news_it">返回</router-link> -->
+             <el-button type="primary" @click="goback">后退</el-button>
+             <el-button type="primary" @click="gohome">回到首页</el-button>
+
+ </div>
 </template>
 <style>
 .main{
@@ -36,6 +39,15 @@ export default{
             this.dates=this.$route.params.date;
             this.authors=this.$route.params.author;
             this.contents=this.$route.params.content;
+        },
+        methods:{
+          goback(){
+            this.$router.go(-1);
+          },
+          gohome(){
+            this.$router.push('/');
+          },
+
         }
     }
 </script>

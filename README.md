@@ -26,15 +26,15 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # vue-cli
 参考：
 - 新闻资讯pages：http://ansonznl.coding.me/vue-router-dome2/#/main1
-- 新闻资讯code：https://coding.net/u/AnsonZnl/p/vue-router-dome2/git
+ 新闻资讯code：https://coding.net/u/AnsonZnl/p/vue-router-dome2/git
 - 饿了吗code：https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
-- 饿了吗pages:https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
+饿了吗pages:https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
 - vue-cli参考：http://jspang.com/2017/04/10/vue-cli/
 - vue-router参考：http://jspang.com/2017/04/13/vue-router/
 
-- 安装vue-cli: 	`npm install vue-cli -g`
-- 初始化项目: `vue init <template-name> <project-name>`
-- init：表示我要用vue-cli来初始化项目
+1 安装vue-cli: 	`npm install vue-cli -g`
+2 初始化项目: `vue init <template-name> <project-name>`
+3 init：表示我要用vue-cli来初始化项目
 
 <template-name>：表示模板名称，vue-cli官方为我们提供了5种模板，
 
@@ -93,9 +93,84 @@ simple-一个最简单的单页应用模板。
 }
 ```
 ### vue-router如何参数传递
+**params传参**
+news_it.vue:
+传递到name为‘news_it_pages’的vue文件里，传递的数据是
+`params:{date:value.date,title:value.title,author:value.author,content:value.content`
+```
+<ul>
+      <li v-for="(value,index) in num">
+        <router-link class="block" :to="{name:'news_it_pages',params:{date:value.date,title:value.title,author:value.author,content:value.content}}">
+                             {{value.title}}
+        </router-link>
+      </li>
+    </ul>
+```
+router.js:
+```
+routes: [                     //配置路由
+    {                           //每一个链接都是一个对象
+      path: '/',               //链接对象
+      name: '首页',            //路由名称
+      component: home         //对应的组件模板
+    },{
+      path: '/news',
+      name: '新闻',
+      component: news,
+      children: [
+        {path: '/', name: 'news_it',component: news_it},
+        {path: 'news_it', component: news_it},
+        {path: 'news_it_pages', name: 'news_it_pages', component: news_it_pages},
+        {path: 'news_ent', component: news_ent}
+      ]
+    }
+  ]
+```
+`this.$route.params`接收：
+```
+<template>
+        <div class="mains">
+           <div class="text-center main">
+                <h2>详情内容</h2>
+                <h3>{{titles}}</h3>
+                 <div>
+                    <p class="block">发布时间：{{dates}}</p>
+                    <p class="block">作者：{{authors}}</p>
+                 </div>
+                    <div class="left m4-auto">
+                    <p v-html="contents" style="text-align: left;">{{contents}}</p>
+                </div>
+            </div>
+             <router-link to="/news/news_it">返回</router-link>
+     </div>
+</template>
+<style>
+.main{
+  width: 400px;
+  margin: auto;
+}
+</style>
+<script>
+export default{
+//暴露一下
+        data(){
+            return{
+                titles:"",
+                dates:"",
+                authors:"",
+                contents:""
+            }
+        },
+        beforeMount:function(){
+            this.titles=this.$route.params.title;
+            this.dates=this.$route.params.date;
+            this.authors=this.$route.params.author;
+            this.contents=this.$route.params.content;
+        }
+    }
+</script>
 
-
-
+```
 ### 引入elementUI
 ElementUI,是一个比较完善的UI库，但是使用它需要有一点vue的基础。
 
@@ -105,14 +180,237 @@ cnpm install element-ui -S
 `
 
 在router.js中引入
-`
+```
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(Router)   //vue全局使用router
 Vue.use(ElementUI)
-`
+```
 然后在home.vue中引用
 ` <el-button type="primary">主要按钮</el-button>`
 
 安装完记得重新运行，`cnpm run dev`   ，现在就可以直接使用elementUI了。
+
+### 单页面多路由区域操作
+在vue文件里的style 添加 `<style scoped>...</style>` 的样式 仅会作用域这个vue文件，不会污染其他文件。
+**在一个页面里我们有2个以上<router-view>区域，我们通过配置路由的js文件，来操作这些区域的内容**
+app.vue:
+```
+    <router-view/>
+    <router-view class="fl" name="left"/>
+    <router-view class="fr" name="right"/>
+```
+在compontents/hemoLeft.vue和components/hemoRight.vue:
+```
+<template>
+  <h2>{{msg}}</h2>
+</template>
+
+<script>
+export default {
+    data(){
+      return {
+        msg: 'hemo right'
+      }
+    }
+}
+</script>
+
+<style lang="css">
+</style>
+
+```
+配置路由 router.js:
+```
+{                           //每一个链接都是一个对象
+      path: '/',               //链接对象
+      name: '首页',            //路由名称
+      components: {
+        default: home,
+        left: left,
+        right: right
+      }
+```
+### 路由重定向和别名
+> redirect和alias的区别
+redirect：仔细观察URL，redirect是直接改变了url的值，把url变成了真实的path路径。
+alias：URL路径没有别改变，这种情况更友好，让用户知道自己访问的路径，只是改变了<router-view>中的内容。
+
+###  路由的过渡动画
+
+在开发中有一种需求叫高端、大气、上档次。所以作为一个大前端有责任让你的程序开起来更酷炫。可以在页面切换时我们加入一些动画效果，提升我们程序的动效设计。这节课我们就学习一下路由的过渡动画效果制作。
+
+想让路由有过渡动画，需要在<router-view>标签的外部添加<transition>标签，标签还需要一个name属性。:
+```
+<transition name="fade">
+  <router-view ></router-view>
+</transition>
+```
+我们在/src/App.vue文件里添加了<transition>标签，并给标签起了一个名字叫fade。
+
+css过渡类名：
+组件过渡过程中，会有四个CSS类名进行切换，这四个类名与transition的name属性有关，比如name=”fade”,会有如下四个CSS类名：
+
+- fade-enter:进入过渡的开始状态，元素被插入时生效，只应用一帧后立刻删除。
+- fade-enter-active:进入过渡的结束状态，元素被插入时就生效，在过渡过程完成后移除。
+- fade-leave:离开过渡的开始状态，元素被删除时触发，只应用一帧后立刻删除。
+- fade-leave-active:离开过渡的结束状态，元素被删除时生效，离开过渡完成后被删除。
+从上面四个类名可以看出，fade-enter-active和fade-leave-active在整个进入或离开过程中都有效，所以CSS的transition属性在这两个类下进行设置。
+
+那我们就在App.vue页面里加入四种CSS样式效果，并利用CSS3的transition属性控制动画的具体效果。代码如下：
+
+```
+.fade-enter {
+  opacity:0;
+}
+.fade-leave{
+  opacity:1;
+}
+.fade-enter-active{
+  transition:opacity .5s;
+}
+.fade-leave-active{
+  opacity:0;
+  transition:opacity .5s;
+}
+```
+上边的代码设置了改变透明度的动画过渡效果，但是默认的mode模式in-out模式，这并不是我们想要的。下面我们学一下mode模式。
+
+过渡模式mode：
+in-out:新元素先进入过渡，完成之后当前元素过渡离开。
+out-in:当前元素先进行过渡离开，离开完成后新元素过渡进入。
+
+### mode的设置和404页面的处理
+在学习过渡效果的时候，我们学了mode的设置，但是在路由的属性中还有一个mode。这节课我们就学习一下另一个mode模式和404页面的设置。
+
+mode的两个值
+histroy:当你使用 history 模式时，URL 就像正常的 url，例如 http://jsapng.com/lms/，也好看！
+hash:默认’hash’值，但是hash看起来就像无意义的字符排列，不太好看也不符合我们一般的网址浏览习惯。
+具体的效果我在视频中会有所掩饰，不理解的小伙伴可以到视频中进行查看。
+
+404页面的设置：
+用户会经常输错页面，当用户输错页面时，我们希望给他一个友好的提示，为此美工都会设计一个漂亮的页面，这个页面就是我们常说的404页面。vue-router也为我们提供了这样的机制.
+
+1.设置我们的路由配置文件（/src/router/index.js）：
+```
+{
+   path:'*',
+   component:Error
+}
+```
+
+这里的path:’*’就是找不到页面时的配置，component是我们新建的一个Error.vue的文件。
+
+2.新建404页面：
+
+在/src/components/文件夹下新建一个Error.vue的文件。简单输入一些有关错误页面的内容。
+```
+<template>
+    <div>
+        <h2>{{ msg }}</h2>
+    </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      msg: 'Error:404'
+    }
+  }
+}
+</script>
+```
+然后瞎写一个router-link 看看效果：
+```
+ <router-link to="/bbbbbb">我是瞎写的</router-link> |
+```
+### 路由中的钩子
+我们知道一个组件从进入到销毁有很多的钩子函数，同样在路由中也设置了钩子函数。路由的钩子选项可以写在路由配置文件中，也可以写在我们的组件模板中。我们这节课就介绍这两种钩子函数的写法。
+
+路由配置文件中的钩子函数
+我们可以直接在路由配置文件（/src/router/index.js）中写钩子函数。但是在路由文件中我们只能写一个beforeEnter,就是在进入此路由配置时。先来看一段具体的代码：
+
+```
+{
+      path:'/params/:newsId(\\d+)/:newsTitle',
+      component:Params,
+      beforeEnter:(to,from,next)=>{
+        console.log('我进入了params模板');
+        console.log(to);
+        console.log(from);
+        next();
+},
+```
+我们在params路由里配置了bdforeEnter得钩子函数，函数我们采用了ES6的箭头函数，需要传递三个参数。我们并在箭头函数中打印了to和from函数。具体打印内容可以在控制台查看object。
+
+三个参数：
+
+to:路由将要跳转的路径信息，信息是包含在对像里边的。
+from:路径跳转前的路径信息，也是一个对象的形式。
+next:路由的控制参数，常用的有next(true)和next(false)。
+写在模板中的钩子函数
+在配置文件中的钩子函数，只有一个钩子-beforeEnter，如果我们写在模板中就可以有两个钩子函数可以使用：
+```
+beforeRouteEnter：在路由进入前的钩子函数。
+beforeRouteLeave：在路由离开前的钩子函数。
+export default {
+  name: 'params',
+  data () {
+    return {
+      msg: 'params page'
+    }
+  },
+  beforeRouteEnter:(to,from,next)=>{
+    console.log("准备进入路由模板");
+    next();
+  },
+  beforeRouteLeave: (to, from, next) => {
+    console.log("准备离开路由模板");
+    next();
+  }
+}
+</script>
+```
+这是我们写在params.vue模板里的路由钩子函数。它可以监控到路由的进入和路由的离开，也可以轻易的读出to和from的值。
+### 编程式导航  前进后退 跳转
+this.$router.go(-1) 和 this.$router.go(1)
+这两个编程式导航的意思是后退和前进，功能跟我们浏览器上的后退和前进按钮一样，这在业务逻辑中经常用到。比如条件不满足时，我们需要后退。
+router.go(-1)代表着后退，我们可以让我们的导航进行后退，并且我们的地址栏也是有所变化的。
+1.我们先在app.vue文件里加入一个按钮，按钮并绑定一个goback( )方法。
+```
+<button @click="goback">后退</button>
+```
+2.在我们的script模块中写入goback()方法，并使用this.$router.go(-1),进行后退操作。
+```
+<script>
+export default {
+  name: 'app',
+  methods:{
+    goback(){
+      this.$router.go(-1);
+    }
+  }
+}
+</script>
+```
+我们设置一个按钮，点击按钮后回到站点首页。
+
+1.先编写一个按钮，在按钮上绑定goHome( )方法。
+```
+<button @click="goHome">回到首页</button>
+```
+2.在<script>模块里加入goHome方法，并用this.$router.push(‘/’)导航到首页
+```
+export default {
+  name: 'app',
+  methods:{
+    goback(){
+      this.$router.go(-1);
+    },
+    goHome(){
+      this.$router.push('/');
+    }
+  }
+}
+```
