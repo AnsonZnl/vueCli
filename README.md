@@ -1,9 +1,5 @@
 # vuecli
-
-> A Vue.js project
-
 ## Build Setup
-
 ``` bash
 # install dependencies
 npm install
@@ -66,6 +62,8 @@ simple-一个最简单的单页应用模板。
 启动：`npm run dev`
 
 ## Vue-router
+
+[^xr1]:vue-router
 
 参考：http://jspang.com/2017/04/13/vue-router/
 
@@ -414,51 +412,35 @@ export default {
   }
 }
 ```
-## Vuex
-参考文档：https://blog.csdn.net/sinat_17775997/article/details/54943797
-引入vuex
+
+## vuex
+参考：https://blog.csdn.net/weixin_35955795/article/details/57412181
+>vuex是一个专门为vue.js设计的集中式状态管理架构。状态？我把它理解为在data中的属性需要共享给其他vue组件使用的部分，就叫做状态。简单的说就是data中需要共用的属性。比如：我们有几个页面要显示用户名称和用户等级，或者显示用户的地理位置。如果我们不把这些属性设置为状态，那每个页面遇到后，都会到服务器进行查找计算，返回后再显示。在中大型项目中会有很多共用的数据.
+### 引入vuex
 1.利用npm包管理工具，进行安装 vuex。在控制命令行中输入下边的命令就可以了。
-
-```
-npm install vuex --save
-```
-需要注意的是这里一定要加上 –save，因为你这个包我们在生产环境中是要使用的。
-
+`cnpm install vuex --save`
+一定要加上 --save 因为这个包我们在生产环境中使用。
 2.新建一个vuex文件夹（这个不是必须的），并在文件夹下新建store.js文件，文件中引入我们的vue和vuex。
-
 ```
 import Vue from 'vue';
 import Vuex from 'vuex';
 ```
-3.使用我们vuex，引入之后用Vue.use进行引用。
+3.使用我们的vuex，引用之后用Vue.use进行引用。
+`Vue.use(Vuex)`
+通过这三步的操作，vuex就算引用成功了
+4.现在我们store.js文件里增加一个常量对象。store.js文件就是我们在引入vuex时的那个文件。
 ```
-Vue.use(Vuex);
-```
-通过这三步的操作，vuex就算引用成功了，接下来我们就可以尽情的玩耍了。
-
-入门小Demo(推荐视频观看)：
-我们这个小案例先声明一个state的count状态，在页面中使用显示这个count，然后可以利用按钮进行加减，如果你看过我的文章，你一定知道，在我们学基础知识 的时候经常编写这个程序。我们来张图片帮大家回忆一下。
-
-
-
-就是这个程序，不过我们这次要用的是vuex来进行制作，并实现数据的共享。
-
-1.现在我们store.js文件里增加一个常量对象。store.js文件就是我们在引入vuex时的那个文件。
-
-```
-const state={
+const state = {
     count:1
 }
 ```
-2.用export default 封装代码，让外部可以引用。
-
+5.用export default 封装代码，让外部可以引用。
 ```
 export default new Vuex.Store({
 	state
-
 })
 ```
-3.新建一个vue的模板，位置在components文件夹下，名字叫count.vue。在模板中我们引入我们刚建的store.js文件，并在模板中用{{$store.state.count}}输出count 的值。
+6.新建一个vue的模板，位置在components文件夹下，名字叫count.vue。在模板中我们引入我们刚建的store.js文件，并在模板中用{{$store.state.count}}输出count 的值。
 ```
 <template>
     <div>
@@ -481,8 +463,7 @@ export default new Vuex.Store({
     }
 </script>
 ```
-4.在store.js文件中加入两个改变state的方法。
-
+7.在store.js文件中加入两个改变state的方法。
 ```
 const mutations={
     add(state){
@@ -495,7 +476,7 @@ const mutations={
 ```
 这里的mutations是固定的写法，意思是改变的，我们到时候会用一节课专门讲这个mutations，所以你先不用着急，只知道我们要改变state的数值的方法，必须写在mutations里就可以了。
 
-5.在count.vue模板中加入两个按钮，并调用mutations中的方法。
+8.在count.vue模板中加入两个按钮，并调用mutations中的方法。
 ```
 <div>
     <button @click="$store.commit('add')">+</button>
@@ -503,7 +484,199 @@ const mutations={
 </div>
 ```
 这样进行预览就可以实现对vuex中的count进行加减了。
-## vux
+### 第2节：state访问状态对象
+> 在第1节我们已经写了一个 const state ，这个就是我们说的访问状态对象，它就是我们SPA（单页应用程序）中的共享值。今天我们主要学习状态对象赋值给内部对象，也就是把stroe.js中的值，赋值给我们模板里data中的值。我们有三种赋值方式，我们一个一个来学习一下。
+
+#### 一、通过computed的计算属性直接赋值
+computed属性可以在输出前，对data中的值进行改变，我们就利用这种特性把store.js中的state值赋值给我们模板中的data值。
+
+```
+computed:{
+    count(){
+        return this.$store.state.count;
+    }
+}
+```
+这里需要注意的是return this.$store.state.count这一句，一定要写this，要不你会找不到$store的。这种写法很好理解，但是写起来是比较麻烦的，那我们来看看第二种写法。
+
+#### 二、通过mapState的对象来赋值
+参考：https://www.cnblogs.com/wjylca/p/7055042.html
+我们首先要用import引入mapState。
+```
+import {mapState} from 'vuex';
+```
+然后还在computed计算属性里写如下代码：
+
+```
+computed:mapState({
+        count:state=>state.count
+ })
+```
+这里我们使用ES6的箭头函数来给count赋值。
+
+#### 三、通过mapState的数组来赋值
+```
+ computed:mapState(["count"])
+```
+这个算是最简单的写法了，在实际项目开发当中也经常这样使用。
+
+这就是三种赋值方式，是不是很简单，虽然简单，但是在实际项目中经常使用，一定要自己动手练习两遍啊。
+
+###  第3节：Mutations修改状态
+参考：https://segmentfault.com/a/1190000009119500
+> 学习一下怎么样修改状态。这个常量我们在第一节课的时候也碰到过，并且进行了加减的操作。我们就具体学习一下，如何操作Mutations。
+**$store.commit( )**
+Vuex提供了commit方法来修改状态，我们粘贴出第一节课的代码内容，简单回顾一下，我们在button上的修改方法。
+```
+<button @click="$store.commit('add')">+</button>
+<button @click="$store.commit('reduce')">-</button>
+```
+store.js文件：
+
+```
+const mutations={
+    add(state){
+        state.count++;
+    },
+    reduce(state){
+        state.count--;
+    }
+}
+```
+传值：
+这只是一个最简单的修改状态的操作，在实际项目中我们常常需要在修改状态时传值。比如上边的例子，是我们每次只加1，而现在我们要通过所传的值进行相加。其实我们只需要在Mutations里再加上一个参数，并在commit的时候传递就就可以了。我们来看具体代码：
+
+现在store.js文件里给add方法加上一个参数n。添加的地方我已经标黄了。
+```
+nst mutations={
+    add(state,n){//参数n
+        state.count+=n;
+    },
+    reduce(state,m){
+        state.count--=m;
+    }
+}
+```
+在Count.vue里修改按钮的commit( )方法传递的参数，我们传递10，意思就是每次加10.
+```
+<p>
+   <button @click="$store.commit('add',10)">+</button>
+   <button @click="$store.commit('reduce(10)')">-</button>
+</p>
+```
+这样两个简单的修改我们就完成了传值，我们可以在浏览器中实验一下了。
+
+模板获取Mutations方法
+实际开发中我们也不喜欢看到$store.commit( )这样的方法出现，我们希望跟调用模板里的方法一样调用。
+
+例如：@click=”reduce(10)”   就和没引用vuex插件一样。
+
+要达到这种写法，只需要简单的两部就可以了：
+
+在模板count.vue里用import 引入我们的mapMutations：
+```
+import { mapState,mapMutations } from 'vuex';
+```
+
+在模板的<script>标签里添加methods属性，并加入mapMutations
+```
+ methods:mapMutations([
+        'add','reduce'
+]),
+```
+
+通过上边两部，我们已经可以在模板中直接使用我们的reduce或者add方法了，就像下面这样。
+```
+<button @click="reduce(10)">-</button>
+```
+
+### 第4节：getters计算过滤操作
+参考：https://blog.csdn.net/youzhiningo/article/details/79640388
+
+
+上传：
+
+1、 assetsPublicPath: './',   修改路径
+
+2、终端输入 npm run  build  命令  生成  dist  文件
+
+3、把dist文件里的冬冬上传就可以了
+>Getters 我们可以理解为store仓库的一个计算属性，它的作用主要是用来派生出一些新的状态。比如我们要把state状态的数据进行一次映射或者筛选，再把这个结果重新计算并提供给组件使用。举个例子：
+
+getters从表面是获得的意思，可以把他看作在获取数据之前进行的一种再编辑,相当于对数据的一个过滤和加工。你可以把它看作store.js的计算属性。
+
+getters基本用法：
+比如我们现在要对store.js文件中的count进行一个计算属性的操作，就是在它输出前，给它加上100.
+
+我们首先要在store.js里用const声明我们的getters属性。
+
+
+```
+const getters = {
+    count:function(state){
+        return state.count +=100;
+    }
+}
+```
+写好了gettters之后，我们还需要在Vuex.Store()里引入，由于之前我们已经引入了state盒mutations，所以引入里有三个引入属性。代码如下，
+
+```
+export default new Vuex.Store({
+    state,mutations,getters
+})
+```
+在store.js里的配置算是完成了，我们需要到模板页对computed进行配置。在vue 的构造器里边只能有一个computed属性，如果你写多个，只有最后一个computed属性可用，所以要对上节课写的computed属性进行一个改造。改造时我们使用ES6中的展开运算符”…”。
+
+```
+computed:{
+    ...mapState(["count"]),
+    count(){
+        return this.$store.getters.count;
+    }
+},
+```
+需要注意的是，你写了这个配置后，在每次count 的值发生变化的时候，都会进行加100的操作。
+
+用mapGetters简化模板写法：
+我们都知道state和mutations都有map的引用方法把我们模板中的编码进行简化，我们的getters也是有的，我们来看一下代码。
+
+首先用import引入我们的mapGetters
+
+`import { mapState,mapMutations,mapGetters } from 'vuex'`
+
+在computed属性中加入mapGetters
+`...mapGetters(["count"])`
+相信大家已经会了getters的用法，那我们下节课见了。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## localStorage和sessionStorage操作
 
@@ -536,13 +709,29 @@ clear清除所有的key/value
 	sessionStorage.clear(); 	localStorage.clear();
 其他操作方法：点操作和[]
 web Storage不但可以用自身的setItem,getItem等方便存取，也可以像普通对象一样用点(.)操作符，及[]的方式进行数据存储，像如下的代码：
-
-var storage = window.localStorage; storage.key1 = "hello"; storage["key2"] = "world"; console.log(storage.key1); console.log(storage["key2"]);
+```
+var storage = window.localStorage; storage.key1 = "hello";
+storage["key2"] = "world"; console.log(storage.key1);
+console.log(storage["key2"]);
+```
 localStorage和sessionStorage的key和length属性实现遍历
 sessionStorage和localStorage提供的key()和length可以方便的实现存储的数据遍历，例如下面的代码：
-
-var storage = window.localStorage; for (var i=0, len = storage.length; i  <  len; i++){     var key = storage.key(i);     var value = storage.getItem(key);     console.log(key + "=" + value); }
+```
+var storage = window.localStorage;
+ for (var i=0, len = storage.length; i  <  len; i++)
+   {
+ var key = storage.key(i);
+ var value = storage.getItem(key);
+ console.log(key + "=" + value);
+}
+```
 storage事件
 storage还提供了storage事件，当键值改变或者clear的时候，就可以触发storage事件，如下面的代码就添加了一个storage事件改变的监听：
-
-if(window.addEventListener){ 	window.addEventListener("storage",handle_storage,false); }else if(window.attachEvent){ 	window.attachEvent("onstorage",handle_storage); } function handle_storage(e){ 	if(!e){e=window.event;}	 }
+```
+if(window.addEventListener){
+window.addEventListener("storage",handle_storage,false);
+}else if(window.attachEvent){
+window.attachEvent("onstorage",handle_storage);
+ }
+function handle_storage(e){if(!e){e=window.event;}}
+```
