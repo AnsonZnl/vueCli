@@ -8,6 +8,7 @@ import news_it_pages from '@/components/news_it_pages'
 import left from '@/components/homeLeft'
 import right from '@/components/homeRight'
 import Error from '@/components/Error'
+import Count from '@/components/Count'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -47,6 +48,10 @@ export default new Router({
     {
       path: '*',
       component: Error
+    },
+    {
+      path: '/count',
+      component: Count
     }
   ]
 })

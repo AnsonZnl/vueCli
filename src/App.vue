@@ -4,6 +4,7 @@
       <p>
         <router-link to='/'>首页</router-link>
         <router-link to='/news'>新闻</router-link>
+        <router-link to='/count'>vuex</router-link>
       </p>
     <transition name="fade" mode="out-in">
       <router-view/>
