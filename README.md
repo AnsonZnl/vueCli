@@ -504,3 +504,45 @@ const mutations={
 ```
 这样进行预览就可以实现对vuex中的count进行加减了。
 ## vux
+
+## localStorage和sessionStorage操作
+
+localStorage和sessionStorage都具有相同的操作方法，例如setItem、getItem和removeItem等
+
+localStorage和sessionStorage的方法
+setItem存储value
+用途：将value存储到key字段
+用法：.setItem( key, value)
+代码示例：
+
+	sessionStorage.setItem("key", "value"); 	localStorage.setItem("site", "js8.in");
+getItem获取value
+用途：获取指定key本地存储的值
+用法：.getItem(key)
+代码示例：
+
+	var value = sessionStorage.getItem("key"); 	var site = localStorage.getItem("site");
+removeItem删除key
+用途：删除指定key本地存储的值
+用法：.removeItem(key)
+代码示例：
+
+	sessionStorage.removeItem("key"); 	localStorage.removeItem("site");
+clear清除所有的key/value
+用途：清除所有的key/value
+用法：.clear()
+代码示例：
+
+	sessionStorage.clear(); 	localStorage.clear();
+其他操作方法：点操作和[]
+web Storage不但可以用自身的setItem,getItem等方便存取，也可以像普通对象一样用点(.)操作符，及[]的方式进行数据存储，像如下的代码：
+
+var storage = window.localStorage; storage.key1 = "hello"; storage["key2"] = "world"; console.log(storage.key1); console.log(storage["key2"]);
+localStorage和sessionStorage的key和length属性实现遍历
+sessionStorage和localStorage提供的key()和length可以方便的实现存储的数据遍历，例如下面的代码：
+
+var storage = window.localStorage; for (var i=0, len = storage.length; i  <  len; i++){     var key = storage.key(i);     var value = storage.getItem(key);     console.log(key + "=" + value); }
+storage事件
+storage还提供了storage事件，当键值改变或者clear的时候，就可以触发storage事件，如下面的代码就添加了一个storage事件改变的监听：
+
+if(window.addEventListener){ 	window.addEventListener("storage",handle_storage,false); }else if(window.attachEvent){ 	window.attachEvent("onstorage",handle_storage); } function handle_storage(e){ 	if(!e){e=window.event;}	 }

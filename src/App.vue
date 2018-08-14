@@ -8,7 +8,7 @@
       </p>
     <transition name="fade" mode="out-in">
       <router-view/>
-  </transition>
+    </transition>
 
   <router-view class="fl" name="left"/>
   <router-view class="fr" name="right"/>
@@ -30,6 +30,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 h1, h2 {
   font-weight: normal;
 }
@@ -48,13 +53,13 @@ a {
   height: 200px;
   float: left;
   width: 50%;
-  background: #ddd;
+  border:solid #ddd 1px;
 }
 .fr{
   height: 200px;
   float: right;
   width: 50%;
-  background: #ccc;
+  border:solid #ddd 1px;
 }
 /* 过度动画 */
 .fade-enter {
