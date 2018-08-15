@@ -11,6 +11,14 @@
   <br>
   <hr>
   <br>
+  <p>actions</p>
+  <p>
+    <el-button type="primary" @click="addAction">+</el-button>
+    <el-button type="primary" @click="reduceAction">-</el-button>
+  </p>
+  <br>
+  <hr>
+  <br>
   <ul>
     <!-- <li>
       <strong class="textLeft">id</strong>
@@ -30,7 +38,7 @@
 <script>
 //引用
 import store from '@/vuex/store';
-import { mapState,mapMutations,mapGetters } from 'vuex';
+import { mapState,mapMutations,mapGetters,mapActions } from 'vuex';
 
 export default {
   data(){
@@ -46,7 +54,10 @@ export default {
     ...mapGetters(['count','arrList'])
   },
   //模板获取Mutations方法
-  methods:mapMutations(['add','reduce']),
+  methods: {
+    ...mapMutations(['add','reduce']),
+    ...mapActions(['addAction','reduceAction'])
+  }
 
 }
 </script>

@@ -9,6 +9,7 @@ import left from '@/components/homeLeft'
 import right from '@/components/homeRight'
 import Error from '@/components/Error'
 import Count from '@/components/Count'
+import Hitokoto from '@/components/Hitokoto'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -52,6 +53,10 @@ export default new Router({
     {
       path: '/count',
       component: Count
+    },
+    {
+      path: '/Hitokoto',
+      component: Hitokoto
     }
   ]
 })
