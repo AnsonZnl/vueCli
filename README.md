@@ -648,11 +648,157 @@ computed:{
 `...mapGetters(["count"])`
 相信大家已经会了getters的用法，那我们下节课见了。
 
+### 第五节：action异步修改状态
+参考：https://www.cnblogs.com/SamWeb/p/6543931.html
+
+> actions和之前讲的Mutations功能基本一样，不同点是，actions是异步的改变state状态，而Mutations是同步改变状态
+
+在store.js中声明actions
+actions里可以调用Mutations里的方法，
+继续上面的 在action里条用add和reduce两个方法。
+```
+const actions ={
+    addAction(context){
+        context.commit('add',10)
+    },
+    reduceAction({commit}){
+        commit('reduce')
+    }
+}
+```
+在actions里写了两个方法addAction和reduceAction，在方法体里，我们都用commit调用了Mutations里边的方法。细心的小伙伴会发现这两个方法传递的参数也不一样。
+
+context：上下文对象，这里你可以理解称store本身。
+{commit}：直接把commit对象传递过来，可以让方法体逻辑和代码更清晰明了。
+模板中的使用
+我们需要在count.vue模板中编写代码，让actions生效。我们先复制两个以前有的按钮，并改成我们的actions里的方法名，分别是：addAction和reduceAction。
+```
+<p>
+  <button @click="addAction">+</button>
+  <button @click="reduceAction">-</button>
+</p>
+```
+改造一下我们的methods方法，首先还是用扩展运算符把mapMutations和mapActions加入。
+```
+methods:{
+    ...mapMutations([
+        'add','reduce'
+    ]),
+    ...mapActions(['addAction','reduceAction'])
+},
+```
+你还要记得用import把我们的mapActions引入才可以使用。
+
+增加异步检验
+我们现在看的效果和我们用Mutations作的一模一样，肯定有的小伙伴会好奇，那actions有什么用，我们为了演示actions的异步功能，我们增加一个计时器（setTimeOut）延迟执行。在addAction里使用setTimeOut进行延迟执行。
+```
+setTimeOut(()=>{context.commit(reduce)},3000);
+console.log('我比reduce提前执行');
+```
+我们可以看到在控制台先打印出了‘我比reduce提前执行’这句话。并且执行了setTiemout方法
+
+### 第6节：module模块组
+了解一下就行了，大项目（十人以上的前端项目勉强会用到）
+
+> 随着项目的复杂性增加，我们共享的状态越来越多，这时候我们就需要把我们状态的各种操作进行一个分组，分组后再进行按组编写。那今天我们就学习一下module：状态管理器的模块组操作。
+
+**声明模块组：**
+在vuex/store.js中声明模块组，我们还是用我们的const常量的方法声明模块组。代码如下：
+```
+const moduleA={
+    state,mutations,getters,actions
+}
+```
+声明好后，我们需要修改原来 Vuex.Stroe里的值：
+```
+export default new Vuex.Store({
+    modules:{a:moduleA}
+})
+```
+**在模板中使用**
+现在我们要在模板中使用count状态，要用插值的形式写入。
+```
+<h3>{{$store.state.a.count}}</h3>
+```
+如果想用简单的方法引入，还是要在我们的计算属性中rutrun我们的状态。写法如下：
+```
+computed:{
+    count(){
+        return this.$store.state.a.count;
+    }
+},
+```
+ ### axios
+mock模拟请求数据：https://easy-mock.com/
+参考：https://blog.csdn.net/garyhu1/article/details/73188165
+参考2：https://www.jianshu.com/p/7a9fbcbb1114
+参考三 axios 改写为 Vue 的原型属性：https://www.cnblogs.com/wisewrong/p/6402183.html
+一言网络API：https://hitokoto.cn/api
+基于http客户端的promise，面向浏览器和nodejs
+
+## 特色
+
+*   浏览器端发起XMLHttpRequests请求
+
+*   node端发起http请求
+
+*   支持Promise API
+
+*   监听请求和返回
+
+*   转化请求和返回
+
+*   取消请求
+
+*   自动转化json数据
+
+*   客户端支持抵御
+
+## 安装
+
+使用npm：
+`npm i axiso`
+//--save 在生产环境使用
+ 使用cdn:
+```
+<script
+ src="https://unpkg.com/axios/dist/axios.min.js">
+</script>
+```
+在哪使用，就在那里引用axios:
+```
+<script>
+import axios from 'axios';//引入axios
+export default {
+    data(){
+      return {//https://v1.hitokoto.cn/
+        msg:'一言',
+        text: "一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子",
+        data: ''
+
+      }
+    },
+    created: function(){
+      axios.get('https://v1.hitokoto.cn/')
+      .then(reponse=>{
+        console.log(reponse.data)
+        this.data = reponse.data
+      })
+      .catch(error=>{
+        console.log(error)
+      })
+
+    }
+}
+</script>
+
+```
 
 
 
 
 
+-------------------
 
 
 
