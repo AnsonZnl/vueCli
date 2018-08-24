@@ -6,6 +6,7 @@
         <router-link to='/news'>新闻</router-link>
         <router-link to='/count'>vuex</router-link>
         <router-link to='/Hitokoto'>一言</router-link>
+        <router-link to='/Todo'>My Todo</router-link>
       </p>
     <transition name="fade" mode="out-in">
       <router-view/>
