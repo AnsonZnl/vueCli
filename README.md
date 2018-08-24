@@ -881,3 +881,22 @@ window.attachEvent("onstorage",handle_storage);
  }
 function handle_storage(e){if(!e){e=window.event;}}
 ```
+
+---------
+键盘摁下enter事件
+```
+@keyup.enter="addList"
+```
+unshift推入数组
+```
+addList(a){
+      console.log(a)
+      this.todoList.unshift({
+        // id: id++,
+        content: a.target.value.trim(),
+        // completed: false
+      })
+      a.target.value = ""
+    }
+```
+
