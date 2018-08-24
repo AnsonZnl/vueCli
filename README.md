@@ -902,3 +902,21 @@ addList(a){
       a.target.value = ""
     }
 ```
+
+## git冲突解决 手动编辑有冲突的代码 然后重新 git add -> git commit ->git push
+
+## todo 剩下的问题
+百度
+```
+const STORAGE_KEY = 'todos-vuejs'
+export default {
+ fetch: function() {
+  return window.JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
+ },
+ save: function(items) {
+  window.localStorage.setItem(STORAGE_KEY, window.JSON.stringify(items))
+ }
+}
+
+```
+ - [Vue.js实现一个todo-list的上移下移删除功能](https://www.jb51.net/article/117196.htm)
