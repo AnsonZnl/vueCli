@@ -11,7 +11,7 @@ import Error from '@/components/Error'
 import Count from '@/components/Count'
 import Hitokoto from '@/components/Hitokoto'
 import Todo from '@/components/Todo'
-
+import localstorageTodo from '@/components/localstorageTodo'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -63,6 +63,10 @@ export default new Router({
     {
       path: '/Todo',
       component: Todo
+    },
+    {
+      path:'/localstorageTodo',
+      component: localstorageTodo
     }
   ]
 })
