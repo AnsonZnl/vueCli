@@ -884,3 +884,21 @@ function handle_storage(e){if(!e){e=window.event;}}
 
 ## [vue中使用localstorage来存储页面信息](https://www.jb51.net/article/127516.htm)
 ## [基于vue2.x+vuex+localStorage开发的本地记事本示例](https://www.jb51.net/article/106981.htm)
+=======
+---------
+键盘摁下enter事件
+```
+@keyup.enter="addList"
+```
+unshift推入数组
+```
+addList(a){
+      console.log(a)
+      this.todoList.unshift({
+        // id: id++,
+        content: a.target.value.trim(),
+        // completed: false
+      })
+      a.target.value = ""
+    }
+```
