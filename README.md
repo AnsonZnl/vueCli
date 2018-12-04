@@ -22,29 +22,29 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # vue-cli
 参考：
 - 新闻资讯pages：http://ansonznl.coding.me/vue-router-dome2/#/main1
- 新闻资讯code：https://coding.net/u/AnsonZnl/p/vue-router-dome2/git
+-  新闻资讯code：https://coding.net/u/AnsonZnl/p/vue-router-dome2/git
 - 饿了吗code：https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
-饿了吗pages:https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
+- 饿了吗pages:https://coding.net/u/AnsonZnl/p/vue-router-dome01/git
 - vue-cli参考：http://jspang.com/2017/04/10/vue-cli/
 - vue-router参考：http://jspang.com/2017/04/13/vue-router/
 
-1 安装vue-cli: 	`npm install vue-cli -g`
-2 初始化项目: `vue init <template-name> <project-name>`
-3 init：表示我要用vue-cli来初始化项目
+1. 安装vue-cli: 	`npm install vue-cli -g`
+2.  初始化项目: `vue init <template-name> <project-name>`
+3. init：表示我要用vue-cli来初始化项目
 
-<template-name>：表示模板名称，vue-cli官方为我们提供了5种模板，
+`<template-name>`：表示模板名称，vue-cli官方为我们提供了5种模板，
 
-webpack-一个全面的webpack+vue-loader的模板，功能包括热加载，linting,检测和CSS扩展。
+1. webpack-一个全面的webpack+vue-loader的模板，功能包括热加载，linting,检测和CSS扩展。
 
-webpack-simple-一个简单webpack+vue-loader的模板，不包含其他功能，让你快速的搭建vue的开发环境。
+2. webpack-simple-一个简单webpack+vue-loader的模板，不包含其他功能，让你快速的搭建vue的开发环境。
 
-browserify-一个全面的Browserify+vueify 的模板，功能包括热加载，linting,单元检测。
+3. browserify-一个全面的Browserify+vueify 的模板，功能包括热加载，linting,单元检测。
 
-browserify-simple-一个简单Browserify+vueify的模板，不包含其他功能，让你快速的搭建vue的开发环境。
+4. browserify-simple-一个简单Browserify+vueify的模板，不包含其他功能，让你快速的搭建vue的开发环境。
 
-simple-一个最简单的单页应用模板。
+5. simple-一个最简单的单页应用模板。
 
-<project-name>：标识项目名称，这个你可以根据自己的项目来起名字。
+`<project-name>`：标识项目名称，这个你可以根据自己的项目来起名字。
 
 在实际开发中，一般我们都会使用webpack这个模板，那我们这里也安装这个模板，在命令行输入以下命令：
 `vue init webpack vuecliTest`
@@ -140,7 +140,7 @@ routes: [                     //配置路由
                 </div>
             </div>
              <router-link to="/news/news_it">返回</router-link>
-     </div>
+     </div>
 </template>
 <style>
 .main{
